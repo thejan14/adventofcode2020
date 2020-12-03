@@ -1,4 +1,4 @@
-﻿namespace ExpensesReport
+﻿namespace Solution
 {
     using System;
     using System.IO;
