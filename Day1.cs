@@ -4,11 +4,11 @@
     using System.IO;
     using System.Linq;
 
-    public class Program
+    public static class Day1
     {
-        public static void Main()
+        public static void Solve()
         {
-            var input = File.ReadAllLines("input.txt");
+            var input = File.ReadAllLines("Day1.data");
             var expenses = input.Select(i => int.Parse(i)).ToArray();
 
             _ = TryGetTwoAddends(expenses, 2020, out var leftHandAddend, out var rightHandAddend);
