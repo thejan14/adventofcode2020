@@ -16,6 +16,9 @@
 
             Console.WriteLine("--- Day 3 ---");
             Day3.Solve();
+
+            Console.WriteLine("--- Day 4 ---");
+            Day4.Solve();
         }
     }
 }
