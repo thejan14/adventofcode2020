@@ -18,7 +18,7 @@
             Console.WriteLine($"(2) {firstAddend} * {secondAddend} * {thirdAddend} = {firstAddend * secondAddend * thirdAddend}");
         }
 
-        public static bool TryGetThreeAddends(int[] numbers, int targetSum, out int firstAddend, out int secondAddend, out int thirdAddend)
+        private static bool TryGetThreeAddends(int[] numbers, int targetSum, out int firstAddend, out int secondAddend, out int thirdAddend)
         {
             firstAddend = 0;
             secondAddend = 0;
@@ -40,7 +40,7 @@
             return false;
         }
 
-        public static bool TryGetTwoAddends(int[] numbers, int targetSum, out int leftHandAddend, out int rightHandAddend)
+        private static bool TryGetTwoAddends(int[] numbers, int targetSum, out int leftHandAddend, out int rightHandAddend)
         {
             leftHandAddend = 0;
             rightHandAddend = 0;

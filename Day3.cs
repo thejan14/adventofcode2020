@@ -33,7 +33,7 @@
 
         }
 
-        public static int GetTreeEncounters(string[] patternList, int traveseX, int traverseY)
+        private static int GetTreeEncounters(string[] patternList, int traveseX, int traverseY)
         {
             var treeEncounters = 0;
             var posX = 0;
@@ -50,7 +50,7 @@
             return treeEncounters;
         }
 
-        public static bool CheckForTree(string pattern, int posX)
+        private static bool CheckForTree(string pattern, int posX)
         {
             return pattern[posX % patternSize] == '#';
         }

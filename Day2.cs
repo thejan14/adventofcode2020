@@ -45,13 +45,13 @@
             Console.WriteLine($"(1) Number of valid passwords: {numberOfValidPasswordsOld}");
             Console.WriteLine($"(2) Number of valid passwords: {numberOfValidPasswordsNew}");
         }
-        public static bool PasswordValidOld(string password, char enforcedCharacer, int minOccurences, int maxOccurences)
+        private static bool PasswordValidOld(string password, char enforcedCharacer, int minOccurences, int maxOccurences)
         {
             var occurences = password.Count(c => c == enforcedCharacer);
             return occurences >= minOccurences && occurences <= maxOccurences;
         }
 
-        public static bool PasswordValidNew(string password, char enforcedCharacer, int firstPos, int secondPos)
+        private static bool PasswordValidNew(string password, char enforcedCharacer, int firstPos, int secondPos)
         {
             var firstPosMatch = password[firstPos - 1] == enforcedCharacer;
             var secondPosMatch = password[secondPos - 1] == enforcedCharacer;
