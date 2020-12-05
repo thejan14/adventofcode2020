@@ -11,14 +11,17 @@
             Console.WriteLine("--- Day 1 ---");
             Day1.Solve();
 
-            Console.WriteLine("--- Day 2 ---");
+            Console.WriteLine("\n--- Day 2 ---");
             Day2.Solve();
 
-            Console.WriteLine("--- Day 3 ---");
+            Console.WriteLine("\n--- Day 3 ---");
             Day3.Solve();
 
-            Console.WriteLine("--- Day 4 ---");
+            Console.WriteLine("\n--- Day 4 ---");
             Day4.Solve();
+
+            Console.WriteLine("\n--- Day 5 ---");
+            Day5.Solve();
         }
     }
 }
