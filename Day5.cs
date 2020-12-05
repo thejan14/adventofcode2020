@@ -9,8 +9,25 @@
         public static void Solve()
         {
             var seatStrings = File.ReadAllLines("Day5.data");
-            var maxSeatID = seatStrings.Select(s => GetSeatID(s)).Max();
-            Console.WriteLine($"Highest seat ID: {maxSeatID}");
+            var orderedSeatIDs = seatStrings.Select(s => GetSeatID(s)).OrderBy(id => id).ToArray();
+            Console.WriteLine($"(1) Highest seat ID: {orderedSeatIDs.Max()}");
+
+            var missingSeatID = GetMissingSeatID(orderedSeatIDs);
+            Console.WriteLine($"(2) Missing seat ID: {missingSeatID}");
+        }
+
+        // expect seat IDs in ascending order
+        private static int GetMissingSeatID(int[] orderedSeatIDs)
+        {
+            for (var i = 0; i < orderedSeatIDs.Length - 1; i++)
+            {
+                if (orderedSeatIDs[i] + 1 != orderedSeatIDs[i + 1])
+                {
+                    return orderedSeatIDs[i] + 1;
+                }
+            }
+
+            return 0;
         }
 
         private static int GetSeatID(string seatString)
