@@ -22,6 +22,9 @@
 
             Console.WriteLine("\n--- Day 5 ---");
             Day5.Solve();
+
+            Console.WriteLine("\n--- Day 6 ---");
+            Day6.Solve();
         }
     }
 }
