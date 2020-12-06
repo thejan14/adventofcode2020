@@ -60,7 +60,7 @@
         {
             // treat column as the last 3 digits of a byte where L=0 and R=1
             byte column = 0b_0000_0000;
-            // use flag to set bits in row in via bitwise OR
+            // use flag to set bits in column in via bitwise OR
             byte flag = 0b_0000_0100;
             foreach (var c in seatString.Skip(7))
             {
