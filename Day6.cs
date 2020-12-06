@@ -1,6 +1,7 @@
 ﻿namespace Solution
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
@@ -10,7 +11,17 @@
         {
             var data = File.ReadAllText("Day6.data");
             var answerList = data.Split("\n\n");
-            var answerCounts = answerList.Select(customsData =>
+
+            var anyAnswerCounts = GetAnyAnswerCounts(answerList);
+            Console.WriteLine($"(1) Sum of all groups answer counts (anyone answered): {anyAnswerCounts.Sum()}");
+
+            var allAnswerCounts = GetAllAnswerCounts(answerList);
+            Console.WriteLine($"(2) Sum of all groups answer counts (all answered): {allAnswerCounts.Sum()}");
+        }
+
+        private static IEnumerable<int> GetAnyAnswerCounts(string[] answerList)
+        {
+            return answerList.Select(customsData =>
             {
                 return customsData
                     .Select(c => Convert.ToInt32(c))
@@ -18,8 +29,17 @@
                     .Distinct()
                     .Count();
             });
+        }
 
-            Console.WriteLine($"Sum of all groups answer counts: {answerCounts.Sum()}");
+        private static IEnumerable<int> GetAllAnswerCounts(string[] answerList)
+        {
+            return answerList.Select(customsData =>
+            {
+                return customsData
+                    .Split("\n")
+                    .Aggregate((a, b) => new string(a.Intersect(b).ToArray()))
+                    .Count();
+            });
         }
     }
 }
