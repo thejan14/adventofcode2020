@@ -26,6 +26,9 @@
     <None Update="Day5.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Day8.data">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Day7.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
