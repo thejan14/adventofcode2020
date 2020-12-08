@@ -21,7 +21,10 @@
             PopulateRules(rulesList);
 
             var allowedBags = GetAllowedBagsFor("shiny gold");
-            Console.WriteLine($"Number of bag colors that can contain at least one 'shiny golden' bag: {allowedBags.Length}");
+            Console.WriteLine($"(1) Number of bag colors that can contain at least one 'shiny gold' bag: {allowedBags.Length}");
+
+            var individualRequiredBags = GetIndividualRequiredBagsFor("shiny gold");
+            Console.WriteLine($"(2) Number of individual bags required inside of a single 'shiny gold' bag: {individualRequiredBags}");
         }
 
         private static void PopulateRules(string[] rulesList)
@@ -51,7 +54,6 @@
             var newAllowedBags = bagContentRules
                 .Where((kv) => kv.Value.ContainsKey(bagColor))
                 .Select(kv => kv.Key)
-                .ToHashSet()
                 .Except(allowedBags)
                 .ToArray();
 
@@ -62,6 +64,24 @@
             }
 
             return allowedBags.ToArray();
+        }
+
+        private static int GetIndividualRequiredBagsFor(string bagColor)
+        {
+            return GetIndividualRequiredBagsFor(bagColor, 0);
+        }
+
+        private static int GetIndividualRequiredBagsFor(string bagColor, int bagCount)
+        {
+            if (bagContentRules.TryGetValue(bagColor, out var bagRules) && bagRules.Count > 0)
+            {
+                // count one for the bag contained in the current color plus all bags that this color needs to contain
+                return bagRules.Sum(kv => (1 + GetIndividualRequiredBagsFor(kv.Key, bagCount)) * kv.Value);
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }
