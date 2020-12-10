@@ -34,6 +34,9 @@
 
             Console.WriteLine("\n--- Day 9 ---");
             Day9.Solve();
+
+            Console.WriteLine("\n--- Day 10 ---");
+            Day10.Solve();
         }
     }
 }
