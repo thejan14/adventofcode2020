@@ -10,7 +10,39 @@
         public static void Solve()
         {
             var data = File.ReadAllLines("Day9.data").Select(line => long.Parse(line)).ToArray();
-            Console.WriteLine($"First invalid number: {GetFirstInvalidNumber(data)}");
+            var invalidNumber = GetFirstInvalidNumber(data);
+            Console.WriteLine($"(1) First invalid number: {invalidNumber}");
+
+            var sumSet = GetContiguousSumSet(data, invalidNumber);
+            Console.WriteLine($"(2) Encryption weakness sum (smallest + largest): {sumSet.Min() + sumSet.Max()}");
+        }
+
+        private static IEnumerable<long> GetContiguousSumSet(long[] data, long target)
+        {
+            var start = 0;
+            var end = 0;
+            var found = false;
+            while (!found && start < data.Length)
+            {
+                end = start + 1;
+                var sum = data[start] + data[end];
+                while (sum < target && !found)
+                {
+                    end += 1;
+                    sum += data[end];
+                    if (sum == target)
+                    {
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    start += 1;
+                }
+            }
+
+            return data.Skip(start).Take(end - start);
         }
 
         private static long GetFirstInvalidNumber(long[] data)
