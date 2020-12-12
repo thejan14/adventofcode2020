@@ -19,7 +19,7 @@
         {
             var data = File.ReadAllLines("Day12.data");
             var instructions = data.Select(d => (d[0], int.Parse(d.Substring(1))));
-            Console.WriteLine($"Manhatten distance: {CalculateDistance(instructions, Direction.E)}");
+            Console.WriteLine($"Manhattan distance: {CalculateDistance(instructions, Direction.E)}");
         }
 
         private static int CalculateDistance(IEnumerable<(char action, int value)> instructions, Direction startDirection)
