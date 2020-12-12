@@ -4,23 +4,24 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text.Json;
-    using System.Threading.Tasks;
-
-    public enum State
-    {
-        Floor,
-        Empty,
-        Occupied
-    }
 
     public static class Day11
     {
+        private enum State
+        {
+            Empty,
+            Occupied,
+            Floor
+        }
+
+        private delegate IEnumerable<State> GetAdjacentSeats(State[,] stateMap, int row, int column);
+
         public static void Solve()
         {
             var data = File.ReadAllLines("Day11.data");
             var stateMap = ParseLayout(data);
-            Console.WriteLine($"Final occupied seats: {GetFinalStateOccupiedSeats(stateMap)}");
+            Console.WriteLine($"(1) Final occupied seats: {GetFinalStateOccupiedSeats(stateMap.Clone() as State[,], 3, GetDirectlyAdjacentSeats)}");
+            Console.WriteLine($"(2) Final occupied seats (updated rules): {GetFinalStateOccupiedSeats(stateMap.Clone() as State[,], 4, GetFirstSeatsInSight)}");
         }
 
 
@@ -43,41 +44,52 @@
             return stateMap;
         }
 
-        private static int GetFinalStateOccupiedSeats(State[,] stateMap)
+        private static int GetFinalStateOccupiedSeats(State[,] stateMap, int toleranceThreshold, GetAdjacentSeats adjacentSeatsFunc)
         {
-            var states = new SortedSet<int>();
-            var nextState = stateMap.CountOccupied();
-            while (!states.Contains(nextState))
+            var countStates = new SortedSet<int>();
+            var nextCountState = stateMap.Cast<State>().Count(s => s == State.Occupied);
+            var nextStateMap = new State[stateMap.GetLength(0), stateMap.GetLength(1)];
+
+            // calculate stateMap's new state in nextStateMap and nextStatesMap new state in stateMap in alternating order
+            // (avoids creating lots of new 2d arrays)
+            var i = 0;
+            while (!countStates.Contains(nextCountState))
             {
-                states.Add(nextState);
-                stateMap = CalculateNextState(stateMap);
-                nextState = stateMap.CountOccupied();
+                i += 1;
+                countStates.Add(nextCountState);
+                if (i % 2 == 1)
+                {
+                    CalculateNextState(stateMap, nextStateMap, toleranceThreshold, adjacentSeatsFunc);
+                    nextCountState = nextStateMap.Cast<State>().Count(s => s == State.Occupied);
+                }
+                else
+                {
+                    CalculateNextState(nextStateMap, stateMap, toleranceThreshold, adjacentSeatsFunc);
+                    nextCountState = stateMap.Cast<State>().Count(s => s == State.Occupied);
+                }
             }
 
-            return nextState;
+            return nextCountState;
         }
 
-        private static State[,] CalculateNextState(State[,] stateMap)
+        private static void CalculateNextState(State[,] stateMap, State[,] newStateMap, int toleranceThreshold, GetAdjacentSeats adjacentSeatsFunc)
         {
-            var newStateMap = new State[stateMap.GetLength(0), stateMap.GetLength(1)];
             for (var row = 0; row < stateMap.GetLength(0); row++)
             {
                 for (var column = 0; column < stateMap.GetLength(1); column++)
                 {
-                    var adjacent = stateMap.GetAdjacentStates(row, column);
+                    var adjacent = adjacentSeatsFunc(stateMap, row, column);
                     newStateMap[row, column] = stateMap[row, column] switch
                     {
                         State.Empty => adjacent.Count(s => s == State.Occupied) == 0 ? State.Occupied : State.Empty,
-                        State.Occupied => adjacent.Count(s => s == State.Occupied) > 3 ? State.Empty : State.Occupied,
+                        State.Occupied => adjacent.Count(s => s == State.Occupied) > toleranceThreshold ? State.Empty : State.Occupied,
                         _ => State.Floor
                     };
                 }
             }
-
-            return newStateMap;
         }
 
-        private static IEnumerable<State> GetAdjacentStates(this State[,] stateMap, int row, int column)
+        private static IEnumerable<State> GetDirectlyAdjacentSeats(this State[,] stateMap, int row, int column)
         {
             for (var i = Math.Max(0, row - 1); i < Math.Min(stateMap.GetLength(0), row + 2); i++)
             {
@@ -91,21 +103,148 @@
             }
         }
 
-        private static int CountOccupied(this State[,] stateMap)
+        private static IEnumerable<State> GetFirstSeatsInSight(this State[,] stateMap, int row, int column)
         {
-            var count = 0;
-            for (var row = 0; row < stateMap.GetLength(0); row++)
+            yield return GetFirstSeatUp(stateMap, row, column);
+            yield return GetFirstSeatUpRight(stateMap, row, column);
+            yield return GetFirstSeatRight(stateMap, row, column);
+            yield return GetFirstSeatDownRight(stateMap, row, column);
+            yield return GetFirstSeatDown(stateMap, row, column);
+            yield return GetFirstSeatDownLeft(stateMap, row, column);
+            yield return GetFirstSeatLeft(stateMap, row, column);
+            yield return GetFirstSeatUpLeft(stateMap, row, column);
+        }
+
+        private static State GetFirstSeatUp(this State[,] stateMap, int row, int column)
+        {
+            for (var i = row - 1; i >= 0; i--)
             {
-                for (var column = 0; column < stateMap.GetLength(1); column++)
+                if (stateMap[i, column] != State.Floor)
                 {
-                    if (stateMap[row, column] == State.Occupied)
-                    {
-                        count += 1;
-                    }
+                    return stateMap[i, column];
                 }
             }
 
-            return count;
+            return State.Floor;
+        }
+
+        private static State GetFirstSeatUpRight(this State[,] stateMap, int row, int column)
+        {
+            var i = row - 1;
+            var j = column + 1;
+            while (i >= 0 && j < stateMap.GetLength(1))
+            {
+                if (stateMap[i, j] != State.Floor)
+                {
+                    return stateMap[i, j];
+                }
+                else
+                {
+                    i -= 1;
+                    j += 1;
+                }
+            }
+
+            return State.Floor;
+        }
+
+        private static State GetFirstSeatRight(this State[,] stateMap, int row, int column)
+        {
+            for (var j = column + 1; j < stateMap.GetLength(1); j++)
+            {
+                if (stateMap[row, j] != State.Floor)
+                {
+                    return stateMap[row, j];
+                }
+            }
+
+            return State.Floor;
+        }
+
+        private static State GetFirstSeatDownRight(this State[,] stateMap, int row, int column)
+        {
+            var i = row + 1;
+            var j = column + 1;
+            while (i < stateMap.GetLength(0) && j < stateMap.GetLength(1))
+            {
+                if (stateMap[i, j] != State.Floor)
+                {
+                    return stateMap[i, j];
+                }
+                else
+                {
+                    i += 1;
+                    j += 1;
+                }
+            }
+
+            return State.Floor;
+        }
+
+        private static State GetFirstSeatDown(this State[,] stateMap, int row, int column)
+        {
+            for (var i = row + 1; i < stateMap.GetLength(0); i++)
+            {
+                if (stateMap[i, column] != State.Floor)
+                {
+                    return stateMap[i, column];
+                }
+            }
+
+            return State.Floor;
+        }
+
+        private static State GetFirstSeatDownLeft(this State[,] stateMap, int row, int column)
+        {
+            var i = row + 1;
+            var j = column - 1;
+            while (i < stateMap.GetLength(0) && j >= 0)
+            {
+                if (stateMap[i, j] != State.Floor)
+                {
+                    return stateMap[i, j];
+                }
+                else
+                {
+                    i += 1;
+                    j -= 1;
+                }
+            }
+
+            return State.Floor;
+        }
+
+        private static State GetFirstSeatLeft(this State[,] stateMap, int row, int column)
+        {
+            for (var j = column - 1; j >= 0; j--)
+            {
+                if (stateMap[row, j] != State.Floor)
+                {
+                    return stateMap[row, j];
+                }
+            }
+
+            return State.Floor;
+        }
+
+        private static State GetFirstSeatUpLeft(this State[,] stateMap, int row, int column)
+        {
+            var i = row - 1;
+            var j = column - 1;
+            while (i >= 0 && j >= 0)
+            {
+                if (stateMap[i, j] != State.Floor)
+                {
+                    return stateMap[i, j];
+                }
+                else
+                {
+                    i -= 1;
+                    j -= 1;
+                }
+            }
+
+            return State.Floor;
         }
     }
 }
