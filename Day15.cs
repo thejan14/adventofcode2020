@@ -11,7 +11,10 @@
         {
             var startingNumbers = File.ReadAllText("Day15.data").Split(',').Select(s => int.Parse(s));
             var result = CalculateMemoryGame(startingNumbers.ToArray(), 2020);
-            Console.WriteLine($"2020th number spoken: {result}");
+            Console.WriteLine($"(1) 2020th number spoken: {result}");
+
+            result = CalculateMemoryGame(startingNumbers.ToArray(), 30000000);
+            Console.WriteLine($"(2) 30000000th number spoken: {result}");
         }
 
         private static int CalculateMemoryGame(int[] startingNumbers, int targetNumber)
@@ -22,7 +25,7 @@
                 numberTurns[startingNumbers[i]] = i + 1;
             }
 
-            var previousNumber = 0;
+            int previousNumber;
             var lastNumber = startingNumbers.Last();
             for (var turn = startingNumbers.Length + 1; turn < targetNumber + 1; turn++)
             {
