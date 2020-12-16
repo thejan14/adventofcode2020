@@ -1,20 +1,12 @@
 ﻿namespace Solution
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
 
     public class Rule
     {
-        /*public Rule(string name, (int lower, int upper) validRange, (int lower, int upper) alternateValidRange)
-        {
-            this.Name = name;
-            this.ValidRange = validRange;
-            this.AlternateValidRange = alternateValidRange;
-        }*/
-
         public string Name { get; init; }
 
         public (int lower, int upper) ValidRange { get; init; }
