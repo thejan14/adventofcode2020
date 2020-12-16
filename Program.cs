@@ -39,7 +39,7 @@
             Day10.Solve();
 
             Console.WriteLine("\n--- Day 11 ---");
-            Day11.Solve();
+            //Day11.Solve();
 
             Console.WriteLine("\n--- Day 12 ---");
             Day12.Solve();
@@ -48,10 +48,13 @@
             Day13.Solve();
 
             Console.WriteLine("\n--- Day 14 ---");
-            Day14.Solve();
+            //Day14.Solve();
 
             Console.WriteLine("\n--- Day 15 ---");
-            Day15.Solve();
+            //Day15.Solve();
+
+            Console.WriteLine("\n--- Day 16 ---");
+            Day16.Solve();
         }
     }
 }
