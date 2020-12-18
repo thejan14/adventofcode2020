@@ -21,13 +21,13 @@
         }
     }
 
-    public static class Day16
+    public class Day16 : Solution
     {
         private static readonly Regex ruleRegex = new Regex(@"(.+): (\d+)-(\d+) or (\d+)-(\d+)");
 
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var data = File.ReadAllText("Day16.data").Split("\n\n");
+            var data = File.ReadAllText(dataPath).Split("\n\n");
             var rules = ParseRules(data[0]);
             var nearbyTicketData = data[2];
 

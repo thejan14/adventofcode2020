@@ -5,11 +5,11 @@
     using System.IO;
     using System.Linq;
 
-    public static class Day9
+    public class Day09 : Solution
     {
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var data = File.ReadAllLines("Day9.data").Select(line => long.Parse(line)).ToArray();
+            var data = File.ReadAllLines(dataPath).Select(line => long.Parse(line)).ToArray();
             var invalidNumber = GetFirstInvalidNumber(data);
             Console.WriteLine($"(1) First invalid number: {invalidNumber}");
 

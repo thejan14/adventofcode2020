@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
 
-    public static class Day12
+    public class Day12 : Solution
     {
         private enum Direction
         {
@@ -15,9 +15,9 @@
             W = 3,
         }
 
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var data = File.ReadAllLines("Day12.data");
+            var data = File.ReadAllLines(dataPath);
             var instructions = data.Select(d => (d[0], int.Parse(d.Substring(1))));
             Console.WriteLine($"(1) Manhattan distance (guessed instruction interpretation): {CalculateDistance(instructions, Direction.E)}");
             Console.WriteLine($"(2) Manhattan distance (after reading the manual): {CalculateActualDistance(instructions)}");

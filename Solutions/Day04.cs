@@ -7,7 +7,7 @@
 
     public delegate bool FieldValidator(string passportData);
 
-    public static class Day4
+    public class Day04 : Solution
     {
         private static readonly string[] mandatoryFields = { "byr:", "iyr:", "eyr:", "hgt:", "hcl:", "ecl:", "pid:", };
 
@@ -30,9 +30,9 @@
             (string passportData) => pidRegex.IsMatch(passportData),
         };
 
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var passportList = File.ReadAllText("Day4.data").Split("\n\n");
+            var passportList = File.ReadAllText(dataPath).Split("\n\n");
             var numberOfValidPassports1 = passportList.Count(p => CheckPassportForMandatoryFields(p));
             Console.WriteLine($"(1) Number of valid passports (mandatory fields): {numberOfValidPassports1}");
 

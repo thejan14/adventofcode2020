@@ -5,13 +5,13 @@
     using System.Linq;
     using System.Text.RegularExpressions;
 
-    public static class Day2
+    public class Day02 : Solution
     {
         private static readonly Regex PolicyAndPasswordRegex = new Regex(@"(\d+)-(\d+) ([\w]): (.*)");
 
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var policyAndPasswordList = File.ReadAllLines("Day2.data");
+            var policyAndPasswordList = File.ReadAllLines(dataPath);
 
             var numberOfValidPasswordsOld = 0;
             var numberOfValidPasswordsNew = 0;

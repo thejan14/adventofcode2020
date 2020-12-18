@@ -5,11 +5,11 @@
     using System.IO;
     using System.Linq;
 
-    public static class Day10
+    public class Day10 : Solution
     {
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var joltageRatings = File.ReadAllLines("Day10.data")
+            var joltageRatings = File.ReadAllLines(dataPath)
                 .Select(line => int.Parse(line))
                 .OrderBy(rate => rate);
 

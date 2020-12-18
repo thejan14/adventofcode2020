@@ -5,11 +5,11 @@
     using System.IO;
     using System.Linq;
 
-    public static class Day15
+    public class Day15 : Solution
     {
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var startingNumbers = File.ReadAllText("Day15.data").Split(',').Select(s => int.Parse(s));
+            var startingNumbers = File.ReadAllText(dataPath).Split(',').Select(s => int.Parse(s));
             var result = CalculateMemoryGame(startingNumbers.ToArray(), 2020);
             Console.WriteLine($"(1) 2020th number spoken: {result}");
 

@@ -1,64 +1,33 @@
 ﻿namespace Solution
 {
     using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
 
     public class Program
     {
         public static void Main()
         {
-            Console.WriteLine("--- Day 1 ---");
-            Day1.Solve();
+            var dataPath = Path.Combine(Directory.GetCurrentDirectory(), "Data");
+            var solutions = Assembly.GetAssembly(typeof(Solution)).GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(Solution)));
 
-            Console.WriteLine("\n--- Day 2 ---");
-            Day2.Solve();
-
-            Console.WriteLine("\n--- Day 3 ---");
-            Day3.Solve();
-
-            Console.WriteLine("\n--- Day 4 ---");
-            Day4.Solve();
-
-            Console.WriteLine("\n--- Day 5 ---");
-            Day5.Solve();
-
-            Console.WriteLine("\n--- Day 6 ---");
-            Day6.Solve();
-
-            Console.WriteLine("\n--- Day 7 ---");
-            Day7.Solve();
-
-            Console.WriteLine("\n--- Day 8 ---");
-            Day8.Solve();
-
-            Console.WriteLine("\n--- Day 9 ---");
-            Day9.Solve();
-
-            Console.WriteLine("\n--- Day 10 ---");
-            Day10.Solve();
-
-            Console.WriteLine("\n--- Day 11 ---");
-            Day11.Solve();
-
-            Console.WriteLine("\n--- Day 12 ---");
-            Day12.Solve();
-
-            Console.WriteLine("\n--- Day 13 ---");
-            Day13.Solve();
-
-            Console.WriteLine("\n--- Day 14 ---");
-            Day14.Solve();
-
-            Console.WriteLine("\n--- Day 15 ---");
-            Day15.Solve();
-
-            Console.WriteLine("\n--- Day 16 ---");
-            Day16.Solve();
-
-            Console.WriteLine("\n--- Day 17 ---");
-            Day17.Solve();
-
-            Console.WriteLine("\n--- Day 18 ---");
-            Day18.Solve();
+            if (Debugger.IsAttached)
+            {
+                var currentSolution = solutions.Last();
+                ((Solution)Activator.CreateInstance(currentSolution)).Solve(Path.Combine(dataPath, $"{currentSolution.Name}.data"));
+            }
+            else
+            {
+                foreach (var type in solutions)
+                {
+                    Console.WriteLine($"--- {type.Name} ---");
+                    var solution = (Solution)Activator.CreateInstance(type);
+                    solution.Solve(Path.Combine(dataPath, $"{type.Name}.data"));
+                    Console.WriteLine();
+                }
+            }
         }
     }
 }

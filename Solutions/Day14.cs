@@ -6,13 +6,13 @@
     using System.Linq;
     using System.Text.RegularExpressions;
 
-    public static class Day14
+    public class Day14 : Solution
     {
         private static Regex memAssignementRegex = new Regex(@"mem\[(\d+)\] = (\d+)");
 
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var data = File.ReadAllLines("Day14.data");
+            var data = File.ReadAllLines(dataPath);
             var memorySumV1 = DecodeProgrammV1(data);
             Console.WriteLine($"(1) Sum of all written memory after the programm (V1) completes: {memorySumV1}");
 

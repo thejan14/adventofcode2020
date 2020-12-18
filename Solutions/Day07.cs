@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
 
-    public static class Day7
+    public class Day07 : Solution
     {
         private static readonly Regex ruleBagColorRegex = new Regex(@"(\w+ \w+) bags contain");
         private static readonly Regex bagContentRuleRegex = new Regex(@"(\d+) (\w+ \w+) bags?[,.]");
@@ -15,9 +15,9 @@
         private static readonly Dictionary<string, Dictionary<string, int>> bagContentRules
             = new Dictionary<string, Dictionary<string, int>>();
 
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var rulesList = File.ReadAllLines("Day7.data");
+            var rulesList = File.ReadAllLines(dataPath);
             PopulateRules(rulesList);
 
             var allowedBags = GetAllowedBagsFor("shiny gold");

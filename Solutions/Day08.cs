@@ -4,18 +4,18 @@
     using System.IO;
     using System.Linq;
 
-    public enum Operation
+    public class Day08 : Solution
     {
-        nop,
-        jmp,
-        acc
-    }
-
-    public static class Day8
-    {
-        public static void Solve()
+        private enum Operation
         {
-            var programmInstructions = ParseProgramm(File.ReadAllLines("Day8.data"));
+            nop,
+            jmp,
+            acc
+        }
+
+        public override void Solve(string dataPath)
+        {
+            var programmInstructions = ParseProgramm(File.ReadAllLines(dataPath));
             TryGetAccumulator(programmInstructions, out var accumulator);
             Console.WriteLine($"(1) State of the accumulator before repeat: {accumulator}");
             Console.WriteLine($"(2) State of the accumulator after fixed programm: {GetFixedAccumulator(programmInstructions)}");

@@ -5,11 +5,11 @@
     using System.IO;
     using System.Linq;
 
-    public static class Day6
+    public class Day06 : Solution
     {
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var data = File.ReadAllText("Day6.data");
+            var data = File.ReadAllText(dataPath);
             var answerList = data.Split("\n\n");
 
             var anyAnswerCounts = GetAnyAnswerCounts(answerList);

@@ -9,11 +9,11 @@
 
     public class PocketDimension4D : Dictionary<(int x, int y, int z, int w), bool> { }
 
-    public static class Day17
+    public class Day17 : Solution
     {
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var starterRegionData = File.ReadAllLines("Day17.data");
+            var starterRegionData = File.ReadAllLines(dataPath);
 
             var initialPocketDimension3D = ParseStarterRegionTo3D(starterRegionData);
             ProcessBootCycles(ref initialPocketDimension3D, starterRegionData.Length, starterRegionData[0].Length);

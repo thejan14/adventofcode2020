@@ -4,11 +4,11 @@
     using System.IO;
     using System.Linq;
 
-    public static class Day5
+    public class Day05 : Solution
     {
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var seatStrings = File.ReadAllLines("Day5.data");
+            var seatStrings = File.ReadAllLines(dataPath);
             var orderedSeatIDs = seatStrings.Select(s => GetSeatID(s)).OrderBy(id => id).ToArray();
             Console.WriteLine($"(1) Highest seat ID: {orderedSeatIDs.Max()}");
 

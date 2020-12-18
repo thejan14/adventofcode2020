@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
 
-    public static class Day11
+    public class Day11 : Solution
     {
         private enum State
         {
@@ -16,9 +16,9 @@
 
         private delegate IEnumerable<State> GetAdjacentSeats(State[,] stateMap, int row, int column);
 
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var data = File.ReadAllLines("Day11.data");
+            var data = File.ReadAllLines(dataPath);
             var stateMap = ParseLayout(data);
             Console.WriteLine($"(1) Final occupied seats: {GetFinalStateOccupiedSeats(stateMap.Clone() as State[,], 3, GetDirectlyAdjacentSeats)}");
             Console.WriteLine($"(2) Final occupied seats (updated rules): {GetFinalStateOccupiedSeats(stateMap.Clone() as State[,], 4, GetFirstSeatsInSight)}");
@@ -89,7 +89,7 @@
             }
         }
 
-        private static IEnumerable<State> GetDirectlyAdjacentSeats(this State[,] stateMap, int row, int column)
+        private static IEnumerable<State> GetDirectlyAdjacentSeats(State[,] stateMap, int row, int column)
         {
             for (var i = Math.Max(0, row - 1); i < Math.Min(stateMap.GetLength(0), row + 2); i++)
             {
@@ -103,7 +103,7 @@
             }
         }
 
-        private static IEnumerable<State> GetFirstSeatsInSight(this State[,] stateMap, int row, int column)
+        private static IEnumerable<State> GetFirstSeatsInSight(State[,] stateMap, int row, int column)
         {
             yield return GetFirstSeatUp(stateMap, row, column);
             yield return GetFirstSeatUpRight(stateMap, row, column);
@@ -115,7 +115,7 @@
             yield return GetFirstSeatUpLeft(stateMap, row, column);
         }
 
-        private static State GetFirstSeatUp(this State[,] stateMap, int row, int column)
+        private static State GetFirstSeatUp(State[,] stateMap, int row, int column)
         {
             for (var i = row - 1; i >= 0; i--)
             {
@@ -128,7 +128,7 @@
             return State.Floor;
         }
 
-        private static State GetFirstSeatUpRight(this State[,] stateMap, int row, int column)
+        private static State GetFirstSeatUpRight(State[,] stateMap, int row, int column)
         {
             var i = row - 1;
             var j = column + 1;
@@ -148,7 +148,7 @@
             return State.Floor;
         }
 
-        private static State GetFirstSeatRight(this State[,] stateMap, int row, int column)
+        private static State GetFirstSeatRight(State[,] stateMap, int row, int column)
         {
             for (var j = column + 1; j < stateMap.GetLength(1); j++)
             {
@@ -161,7 +161,7 @@
             return State.Floor;
         }
 
-        private static State GetFirstSeatDownRight(this State[,] stateMap, int row, int column)
+        private static State GetFirstSeatDownRight(State[,] stateMap, int row, int column)
         {
             var i = row + 1;
             var j = column + 1;
@@ -181,7 +181,7 @@
             return State.Floor;
         }
 
-        private static State GetFirstSeatDown(this State[,] stateMap, int row, int column)
+        private static State GetFirstSeatDown(State[,] stateMap, int row, int column)
         {
             for (var i = row + 1; i < stateMap.GetLength(0); i++)
             {
@@ -194,7 +194,7 @@
             return State.Floor;
         }
 
-        private static State GetFirstSeatDownLeft(this State[,] stateMap, int row, int column)
+        private static State GetFirstSeatDownLeft(State[,] stateMap, int row, int column)
         {
             var i = row + 1;
             var j = column - 1;
@@ -214,7 +214,7 @@
             return State.Floor;
         }
 
-        private static State GetFirstSeatLeft(this State[,] stateMap, int row, int column)
+        private static State GetFirstSeatLeft(State[,] stateMap, int row, int column)
         {
             for (var j = column - 1; j >= 0; j--)
             {
@@ -227,7 +227,7 @@
             return State.Floor;
         }
 
-        private static State GetFirstSeatUpLeft(this State[,] stateMap, int row, int column)
+        private static State GetFirstSeatUpLeft(State[,] stateMap, int row, int column)
         {
             var i = row - 1;
             var j = column - 1;

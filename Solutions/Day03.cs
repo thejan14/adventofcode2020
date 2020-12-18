@@ -4,13 +4,13 @@
     using System.IO;
     using System.Linq;
 
-    public static class Day3
+    public class Day03 : Solution
     {
         private static int patternSize = 31;
 
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var patternList = File.ReadAllLines("Day3.data");
+            var patternList = File.ReadAllLines(dataPath);
             var slopes = new (int traverseX, int traverseY)[] {
                 (1, 1),
                 (3, 1),

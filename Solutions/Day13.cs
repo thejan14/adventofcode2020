@@ -5,11 +5,11 @@
     using System.IO;
     using System.Linq;
 
-    public static class Day13
+    public class Day13 : Solution
     {
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var data = File.ReadAllLines("Day13.data");
+            var data = File.ReadAllLines(dataPath);
             FindEarliestBusId(data);
             FindSubsequentBusDepartures(data);
         }

@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
 
-    public static class Day18
+    public class Day18 : Solution
     {
         private delegate long ExpressionEvaluator(ref string expression);
 
@@ -15,9 +15,9 @@
             Multiply
         }
 
-        public static void Solve()
+        public override void Solve(string dataPath)
         {
-            var expressions = File.ReadAllLines("Day18.data").Select(s => s.Replace(" ", "")).ToArray();
+            var expressions = File.ReadAllLines(dataPath).Select(s => s.Replace(" ", "")).ToArray();
             Console.WriteLine($"(1) Sum of all expressions (no precedence): {expressions.Select(e => EvaluateExpressionWithoutPrecedence(ref e)).Sum()}");
             Console.WriteLine($"(2) Sum of all expressions (with precedence): {expressions.Select(e => EvaluateExpression(ref e)).Sum()}");
         }
