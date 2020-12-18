@@ -1,3 +1,5 @@
+![visitors](https://visitor-badge.glitch.me/badge?page_id=thejan14.adventofcode2020)
+
 # Advent of code 2020
 
 Welcome to my advent of code 2020 contribution! The solutions are written in C# using .NET 5. When writing the solutions code I primarily aim for readability but try to always keep performance considerations in mind. Happy reading!
