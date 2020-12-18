@@ -4,10 +4,11 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text.RegularExpressions;
 
     public static class Day18
     {
+        private delegate long ExpressionEvaluator(ref string expression);
+
         private enum Operation
         {
             Add,
@@ -17,28 +18,51 @@
         public static void Solve()
         {
             var expressions = File.ReadAllLines("Day18.data").Select(s => s.Replace(" ", "")).ToArray();
-            Console.WriteLine($"Sum of all expressions: {expressions.Select(e => EvaluateExpression(ref e)).Sum()}");
+            Console.WriteLine($"(1) Sum of all expressions (no precedence): {expressions.Select(e => EvaluateExpressionWithoutPrecedence(ref e)).Sum()}");
+            Console.WriteLine($"(2) Sum of all expressions (with precedence): {expressions.Select(e => EvaluateExpression(ref e)).Sum()}");
         }
 
-        private static long EvaluateExpression(ref string expression)
+        private static long EvaluateExpressionWithoutPrecedence(ref string expression)
         {
             var pos = 0;
-            var result = GetNextValue(ref expression, ref pos);
+            var result = GetNextValue(ref expression, ref pos, EvaluateExpressionWithoutPrecedence);
             while (TryGetNextOperation(ref expression, ref pos, out var operation))
             {
                 result = operation switch
                 {
-                    Operation.Add => result + GetNextValue(ref expression, ref pos),
-                    _ => result * GetNextValue(ref expression, ref pos)
+                    Operation.Add => result + GetNextValue(ref expression, ref pos, EvaluateExpressionWithoutPrecedence),
+                    _ => result * GetNextValue(ref expression, ref pos, EvaluateExpressionWithoutPrecedence)
                 };
             }
 
             return result;
         }
 
+        private static long EvaluateExpression(ref string expression)
+        {
+            var pos = 0;
+            var currentValue = GetNextValue(ref expression, ref pos, EvaluateExpression);
+            var multipliers = new List<long>();
+            while (TryGetNextOperation(ref expression, ref pos, out var operation))
+            {
+                if (operation == Operation.Add)
+                {
+                    currentValue += GetNextValue(ref expression, ref pos, EvaluateExpression);
+                }
+                else
+                {
+                    multipliers.Add(currentValue);
+                    currentValue = GetNextValue(ref expression, ref pos, EvaluateExpression);
+                }
+            }
+
+            // last value/sum must also be multiplied
+            return multipliers.Aggregate(1L, (a, b) => a * b) * currentValue;
+        }
+
         // gets the next value with can be either a number or an expression in brackets
         // and moves pos behind the value
-        private static long GetNextValue(ref string expression, ref int pos)
+        private static long GetNextValue(ref string expression, ref int pos, ExpressionEvaluator expressionEvaluator)
         {
             if (expression[pos] == '(')
             {
@@ -56,7 +80,7 @@
                         if (brackets == 0)
                         {
                             var subExpression = expression.Substring(start + 1, pos - start - 1);
-                            return EvaluateExpression(ref subExpression);
+                            return expressionEvaluator(ref subExpression);
                         }
                         else
                         {
