@@ -8,7 +8,5 @@ For running the code you need the [.NET 5.0 SDK](https://dotnet.microsoft.com/do
 dotnet run
 ```
 
-~~You can also have a look at my repl at [https://repl.it/@thejan14/adventofcode2020](https://repl.it/@thejan14/adventofcode2020) where I run the code using [Mono](https://www.mono-project.com/).~~
-
-#### Note about repl (16th of December)
-*Unfortunately Mono doesn't support C# 9.0 yet, therefore day 16 won't compile in the repl. I may restructure the project so that only one solution at a time is run (also valuable as some solutions take a few seconds to compute) when I have time to spare. Until then you will have to compile on your local machine as described above.*
+You can also have a look at my repl at [https://repl.it/@thejan14/adventofcode2020](https://repl.it/@thejan14/adventofcode2020) where I run the code using [Mono](https://www.mono-project.com/).  
+_Please note that I may exclude solutions for running on repl if they use C# 9.0 features as Mono only supports up to C# 7.0._

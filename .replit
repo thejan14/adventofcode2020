@@ -1,2 +1,2 @@
 language = "csharp"
-run = "mkdir -p bin && csc -out:bin/solution.exe *.cs && mono bin/solution.exe"
+run = "mkdir -p bin && csc -out:bin/solution.exe Program.cs Solutions/Solution.cs Solutions/*[012345789].cs && mono bin/solution.exe"
