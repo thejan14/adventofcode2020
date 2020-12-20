@@ -20,7 +20,6 @@
             var numberOfMatches = messages.Count(m =>
             {
                 var match = updatedRuleRegex.Match(m);
-                Console.WriteLine(match.Groups["x"].Captures.Count);
                 return match.Success;
             });
 
